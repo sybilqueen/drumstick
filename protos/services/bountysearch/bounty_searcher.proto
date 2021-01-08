@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package bountysearch;
+
+// Interface exported by the server
+service BountySearcher {
+    // simple request response RPC that returns the tweets for the timeline for this manager's user
+    rpc GetHomeTimeline(BountySearcherRequest) returns (BountySearcherResponse) {}
+    rpc GetHealth(HealthRequest) returns (HealthResponse) {}
+}
+
+message HealthRequest {}
+
+message HealthResponse {
+    uint64 health = 1;
+}
+
+message BountySearcherRequest{
+    // tweet manager does not keep state, but returns latest tweet id for each payload
+    // which can be used for iteration
+    uint64 since_id = 1;
+    // can be used if we want to limit payload size (optional)
+    uint64 max_id = 2;
+}
+
+message BountySearcherResponse{
+    uint64 processed_count = 1;
+    uint64 max_id = 2;
+}

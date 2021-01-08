@@ -1,0 +1,22 @@
+FROM python:3.8.3-slim
+
+WORKDIR /usr/src/app
+
+# copy source python files
+COPY *.py ./
+
+# install dependencies
+COPY requirements.txt ./ 
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+# copy credentials (not included directly with build)
+# this is decryted from an encrypted file via google kms
+COPY creds.json ./
+
+# download nlp model, passed in at build time
+ARG NLP_MODEL
+RUN python -m spacy download $NLP_MODEL
+
+# exec BountySearcher
+CMD ["python","BountySearcher.py", "creds.json" ]

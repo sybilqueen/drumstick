@@ -1,0 +1,9 @@
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['kms','decrypt','--ciphertext-file=encrypted-$PROJECT_ID.json.enc','--plaintext-file=creds.json','--location=global','--keyring=${_SERVICE}','--key=main'] 
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '.', '-t','gcr.io/$PROJECT_ID/${_SERVICE}','-t','gcr.io/$PROJECT_ID/${_SERVICE}:${SHORT_SHA}', '--build-arg','NLP_MODEL=${_NLPMODEL}']
+options:
+  substitution_option: 'ALLOW_LOOSE'
+images:
+- 'gcr.io/$PROJECT_ID/${_SERVICE}'

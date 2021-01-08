@@ -1,0 +1,6 @@
+protobuf==3.12.4
+grpcio==1.31.0rc1
+tweepy==3.9.0
+spacy==2.3.2
+fastavro==0.24.0
+google-cloud-storage==1.30.0
